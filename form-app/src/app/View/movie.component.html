@@ -1,0 +1,103 @@
+<section id="Movie">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3">
+                <div class="form-wrap">
+                    <!-- Movie Data Submit form-->
+                    <h2>Add Movie</h2>
+                    <form #movieForm="ngForm" (ngSubmit)="addMovie(movieForm)" novalidate>
+                        <div class="form-group">
+                            <label> Image URL </label>
+                            <input type="text" class="form-control" [(ngModel)]="currentMovie.imageUrl" name="imageUrl" #refUrl="ngModel" 
+                            placeholder="Image URL e.g https://upload.wikimedia.org/wikipedia/en/0/04/Tubelight_Poster.jpg"  minlength="15"  required>
+                            <!-- Field Validation-->
+                            <div *ngIf="refUrl.errors && (refUrl.dirty || refUrl.touched)"  class="alert alert-danger" >
+                            <div [hidden]="!refUrl.errors.required">
+                                Image Url Required
+                            </div>
+                            <!--Min length validation -->
+                            <div [hidden]="!refUrl.errors.minlength">
+                                Minimum 15 characters needed.
+                            </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label> Movie Name </label>
+                            <input type="text" class="form-control" name="name"  #refName="ngModel" [(ngModel)]="currentMovie.name"  
+                            pattern="^[a-zA-Z0-9]*$"  placeholder="Movie Name" maxlength="2" required>
+                            <!-- Field Validation-->
+                            <div *ngIf="refName.errors && (refName.dirty || refName.touched)" class="alert alert-danger" >
+                            <div [hidden]="!refName.errors.required">
+                                Name Required
+                            </div>
+                            <!--Alpha Numeric validation -->
+                             <div [hidden]="!refName.errors.pattern">
+                               Enter Alpha Numeric values only
+                            </div>
+                            <!--Max length validation -->
+                             <div [hidden]="!refName.errors.maxlength">
+                               Enter Maximum 2 characters
+                            </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label> Movie Description </label>
+                            <input type="text" class="form-control" name="description" #refDesc="ngModel" [(ngModel)]="currentMovie.description"  
+                            pattern="^[a-zA-Z]*$" placeholder="Moview Description" required>
+                            <!-- Field Validation-->
+                            <div *ngIf="refDesc.errors && (refDesc.dirty || refDesc.touched)" class="alert alert-danger">
+                            <div [hidden]="!refDesc.errors.required">
+                                Description Required
+                            </div>
+                            <!--Alphabets validation -->
+                            <div [hidden]="!refDesc.errors.pattern">
+                               Enter Alphabets only
+                            </div>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label> Rating </label>
+                            <select class="form-control"  name="rating" #refRating="ngModel" [(ngModel)]="currentMovie.movieRatings" required>
+                                <option [value]="rating" [disabled]="true">Select Option</option>
+                                <option *ngFor = "let rating of movieRatings" [ngValue]="rating.title">
+                                    {{rating.title}}
+                                </option>
+                            </select>
+                            <!-- Field Validation-->
+                            <div *ngIf="refRating.errors && (refRating.dirty || refRating.touched)" class="alert alert-danger">
+                            <div [hidden]="!refRating.errors.required">
+                                Rating Required
+                            </div>
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-primary btn-block" value="Add" [disabled]="movieForm.invalid">
+                    </form>
+                </div>
+            </div>
+        </div><!-- User Submission form -->
+        <br/>
+        <br/>
+          <div class="row">
+            <div class="col-lg-6 col-lg-offset-3">
+                <!-- Show User list when it has records-->
+                <table *ngIf="listOfMovies.length > 0" class="table table-striped table-bordered">
+                    <tr>
+                        <th> Index</th>
+                        <th> Movie Poster</th>
+                        <th> Movie Name</th>
+                        <th> Movie Description</th>
+                        <th> Rating</th>
+                    </tr>
+                    <!-- Looping through userlist-->
+                    <tr *ngFor="let movie of listOfMovies; let i=index;">
+                        <td>{{i + 1}}</td>
+                        <td><img [src]="movie.imageUrl" [alt]="movie.name" width="75"/></td>
+                        <td>{{movie.name}}</td>
+                        <td>{{movie.description}}</td>
+                        <td>{{movie.movieRatings}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div><!-- Movie List -->
+    </div>
+</section>
