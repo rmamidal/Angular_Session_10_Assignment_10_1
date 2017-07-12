@@ -5,72 +5,72 @@
                 <div class="form-wrap">
                     <!-- Movie Data Submit form-->
                     <h2>Add Movie</h2>
-                    <form #movieForm="ngForm" (ngSubmit)="addMovie(movieForm)" novalidate>
+                    <form [formGroup]="formMovie" (ngSubmit)="addMovie()" novalidate>
                         <div class="form-group">
                             <label> Image URL </label>
-                            <input type="text" class="form-control" [(ngModel)]="currentMovie.imageUrl" name="imageUrl" #refUrl="ngModel" 
-                            placeholder="Image URL e.g https://upload.wikimedia.org/wikipedia/en/0/04/Tubelight_Poster.jpg"  minlength="15"  required>
+                            <input type="text" class="form-control" [(ngModel)]="currentMovie.imageUrl" formControlName="imageUrl" name="imageUrl" 
+                            placeholder="Image URL e.g https://upload.wikimedia.org/wikipedia/en/0/04/Tubelight_Poster.jpg">
                             <!-- Field Validation-->
-                            <div *ngIf="refUrl.errors && (refUrl.dirty || refUrl.touched)"  class="alert alert-danger" >
-                            <div [hidden]="!refUrl.errors.required">
+                            <div *ngIf="formMovie.controls['imageUrl'].errors && (formMovie.controls['imageUrl'].dirty || formMovie.controls['imageUrl'].touched)"  class="alert alert-danger" >
+                            <div [hidden]="!formMovie.controls['imageUrl'].hasError('required')">
                                 Image Url Required
                             </div>
                             <!--Min length validation -->
-                            <div [hidden]="!refUrl.errors.minlength">
+                            <div [hidden]="!formMovie.controls['imageUrl'].hasError('minlength')">
                                 Minimum 15 characters needed.
                             </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label> Movie Name </label>
-                            <input type="text" class="form-control" name="name"  #refName="ngModel" [(ngModel)]="currentMovie.name"  
-                            pattern="^[a-zA-Z0-9]*$"  placeholder="Movie Name" maxlength="2" required>
+                            <input type="text" class="form-control" name="name" formControlName="name" [(ngModel)]="currentMovie.name"  
+                            placeholder="Movie Name">
                             <!-- Field Validation-->
-                            <div *ngIf="refName.errors && (refName.dirty || refName.touched)" class="alert alert-danger" >
-                            <div [hidden]="!refName.errors.required">
+                            <div *ngIf="formMovie.controls['name'].errors && (formMovie.controls['name'].dirty || formMovie.controls['name'].touched)" class="alert alert-danger" >
+                            <div [hidden]="!formMovie.controls['name'].hasError('required')">
                                 Name Required
                             </div>
                             <!--Alpha Numeric validation -->
-                             <div [hidden]="!refName.errors.pattern">
+                             <div [hidden]="!formMovie.controls['name'].hasError('pattern')">
                                Enter Alpha Numeric values only
                             </div>
                             <!--Max length validation -->
-                             <div [hidden]="!refName.errors.maxlength">
+                             <div [hidden]="!formMovie.controls['name'].hasError('maxlength')">
                                Enter Maximum 2 characters
                             </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label> Movie Description </label>
-                            <input type="text" class="form-control" name="description" #refDesc="ngModel" [(ngModel)]="currentMovie.description"  
+                            <input type="text" class="form-control" name="description" formControlName="description" [(ngModel)]="currentMovie.description"  
                             pattern="^[a-zA-Z]*$" placeholder="Moview Description" required>
                             <!-- Field Validation-->
-                            <div *ngIf="refDesc.errors && (refDesc.dirty || refDesc.touched)" class="alert alert-danger">
-                            <div [hidden]="!refDesc.errors.required">
+                            <div *ngIf="formMovie.controls['description'].errors && (formMovie.controls['description'].dirty || formMovie.controls['description'].touched)" class="alert alert-danger">
+                            <div [hidden]="!formMovie.controls['description'].hasError('required')">
                                 Description Required
                             </div>
                             <!--Alphabets validation -->
-                            <div [hidden]="!refDesc.errors.pattern">
+                            <div [hidden]="!formMovie.controls['description'].hasError('pattern')">
                                Enter Alphabets only
                             </div>
                             </div>
                         </div>
                          <div class="form-group">
                             <label> Rating </label>
-                            <select class="form-control"  name="rating" #refRating="ngModel" [(ngModel)]="currentMovie.movieRatings" required>
+                            <select class="form-control"  name="rating" formControlName="rating" [(ngModel)]="currentMovie.movieRatings" required>
                                 <option [value]="rating" [disabled]="true">Select Option</option>
                                 <option *ngFor = "let rating of movieRatings" [ngValue]="rating.title">
                                     {{rating.title}}
                                 </option>
                             </select>
                             <!-- Field Validation-->
-                            <div *ngIf="refRating.errors && (refRating.dirty || refRating.touched)" class="alert alert-danger">
-                            <div [hidden]="!refRating.errors.required">
+                            <div *ngIf="formMovie.controls['rating'].errors && (formMovie.controls['rating'].dirty || formMovie.controls['rating'].touched)" class="alert alert-danger">
+                            <div [hidden]="!formMovie.controls['rating'].hasError('required')">
                                 Rating Required
                             </div>
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-primary btn-block" value="Add" [disabled]="movieForm.invalid">
+                        <input type="submit" class="btn btn-primary btn-block" value="Add" [disabled]="formMovie.invalid">
                     </form>
                 </div>
             </div>
